@@ -10,6 +10,16 @@
  *******************************************************************************/
 package at.fhooe.mtd.ecs;
 
+/**
+ * A engine system maintains a certain aspect of the engine.
+ * <p>
+ * The most common case is to process a certain family of entities (e.g.
+ * position update). However, due to the fact that engine systems are accessible
+ * by all other systems and get updated each cycle of the game loop, engine
+ * system can be used to realize other tasks that do not directly process
+ * entities (e.g. camera management or centralized input processing).
+ * </p>
+ */
 public abstract class EngineSystem {
 
     /** A reference to the engine this system belongs to. */

@@ -4,6 +4,14 @@
  * 
  * <h2>Version History</h2>
  *  
+ * <h3>Version 1.3.1</h3>
+ * <p><i>Release Date: unpublished</i></p>
+ * <ul>
+ * <li>Made {@code EngineSystem} abstract.</li>
+ * <li>Added abstract {@code IteratingSystem} that processes one family of entities.</li>
+ * <li>Added some additional JavaDoc comments.</li>
+ * </ul>
+ * 
  * <h3>Version 1.3.0</h3>
  * <p><i>Release Date: 2016-05-03</i></p>
  * <ul>

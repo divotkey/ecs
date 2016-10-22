@@ -2,9 +2,11 @@
 
 ## Version 1.3.1
 
-Date: *2016-06-??*
+Date: *2016-10-??*
 
 - Made `EngineSystem` abstract.
+- Added abstract `IteratingSystem` that processes one family of entities.
+- Added some additional JavaDoc comments.
 
 ## Version 1.3.0
 Date: *2016-05-03*
