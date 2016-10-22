@@ -56,6 +56,15 @@ public abstract class IteratingSystem extends EngineSystem {
 	}
 
 	/**
+	 * Returns the list of entities this system processes.
+	 * 
+	 * @return the list of entities.
+	 */
+	public final List<Entity> getEntities() {
+		return entities;
+	}
+	
+	/**
 	 * Processes one entity of the family.
 	 * 
 	 * @param entity
