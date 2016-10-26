@@ -22,6 +22,9 @@ package at.fhooe.mtd.ecs;
  */
 public abstract class EngineSystem {
 
+	/** Whether this system is enabled or disabled. */
+	private boolean enabled = true;
+	
     /** A reference to the engine this system belongs to. */
     private Engine engine;
     
@@ -33,6 +36,29 @@ public abstract class EngineSystem {
      */
     final void setEngine(Engine e) {
         engine = e;
+    }
+    
+	/**
+	 * Enables or disables this system. Disabled systems will not get updated by
+	 * the engine.
+	 * 
+	 * @param b
+	 *            {@code true} is this system should be enabled, {@code false}
+	 *            otherwise
+	 */
+    public final void setEnabled(boolean b) {
+    	if (enabled == b) return;
+    	enabled = b;
+    	enabledStateChanged();
+    }
+
+	/**
+	 * Returns the enables state of this system.
+	 * 
+	 * @return {@code true} if this system is enabled
+	 */
+    public final boolean isEnabled() {
+    	return enabled;
     }
     
     /**
@@ -81,5 +107,10 @@ public abstract class EngineSystem {
      *            the delta time in seconds
      */
     public void update(double dt) { }
+    
+    /** 
+     * Called when the enabled state of this system has changed.
+     */
+    protected void enabledStateChanged() {}
     
 }

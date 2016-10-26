@@ -250,7 +250,9 @@ public final class Engine {
         
         // update systems
         for (EngineSystem s : systems) {
-            s.update(dt);
+        	if (s.isEnabled()) {
+                s.update(dt);        		
+        	}
         }
         
         // execute pending commands
