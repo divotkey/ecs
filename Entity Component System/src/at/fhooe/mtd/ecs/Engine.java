@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -67,7 +68,7 @@ public final class Engine {
     /** The list of entities added to this engine. */
     private List<Entity> entities = new ArrayList<>();
     
-    /** A map for all the different view of the entities. */
+    /** A map for all the different views of the entities. */
     private Map<EntityFamily, List<Entity>> views = new HashMap<>();
     
     /** List of pending commands. */
@@ -79,9 +80,45 @@ public final class Engine {
     /** Registered entity listeners. */
     private List<EntityListener> listeners = new CopyOnWriteArrayList<EntityListener>();    
     
+    /** Registered entity listeners listening only for certain entity families. */
+    private Map<EntityFamily, List<EntityListener>> filteredListeners = new HashMap<>();
+    
     /** Indicates if an update cycle is currently in progress. */
     private boolean updating;
+
     
+	/**
+	 * Adds the specified entity listener to this engine.
+	 * 
+	 * @param l
+	 *            the entity listener to be added
+	 * @param family
+	 *            the family of entities this listeners is interested in
+	 */
+    public void addEntityListener(EntityListener l, EntityFamily family) {
+    	List<EntityListener> lst = filteredListeners.get(family);
+    	if (lst == null) {
+    		lst = new CopyOnWriteArrayList<>();
+    		filteredListeners.put(family, lst);
+    	}
+        assert !lst.contains(l) : "listener already added " + l;
+    	lst.add(l);
+    }
+
+    /**
+     * Removes the specified entity listeners from this engine.
+     * 
+     * @param l
+     *            the entity listener to be removed
+	 * @param family
+	 *            the family of entities this listeners was interested in
+     */
+    public void removeEntityListener(EntityListener l, EntityFamily family) {
+    	List<EntityListener> lst = filteredListeners.get(family);
+    	if (lst != null) {
+    		lst.remove(l);
+    	}
+    }
     
     /**
      * Adds the specified entity listener to this engine.
@@ -172,6 +209,12 @@ public final class Engine {
         for (EntityListener l : listeners) {
             l.entityAdded(e);
         }
+        
+        for (Entry<EntityFamily, List<EntityListener>> entry : filteredListeners.entrySet()) {
+        	if (entry.getKey().isMember(e)) {
+                for (EntityListener l : entry.getValue()) { l.entityAdded(e); }
+        	}
+        }
     }
     
     /**
@@ -206,6 +249,11 @@ public final class Engine {
         // inform listeners as long as the entity is still active
         for (EntityListener l : listeners) {
             l.entityRemoved(e);
+        }
+        for (Entry<EntityFamily, List<EntityListener>> entry : filteredListeners.entrySet()) {
+        	if (entry.getKey().isMember(e)) {
+                for (EntityListener l : entry.getValue()) { l.entityRemoved(e); }
+        	}
         }
         
         // actually remove entity
@@ -432,6 +480,7 @@ public final class Engine {
         // dispose systems
         for (int i = systems.size() - 1; i >= 0; --i) {
             EngineSystem s = systems.get(i);
+            s.setEnabled(false);
             s.removedFromEngine(this);
             s.setEngine(null);
         }                

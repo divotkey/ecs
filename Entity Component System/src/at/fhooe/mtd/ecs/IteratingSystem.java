@@ -72,6 +72,6 @@ public abstract class IteratingSystem extends EngineSystem {
 	 * @param dt
 	 *            the elapsed time in seconds
 	 */
-	protected abstract void processEntity(Entity entity, double dt);
+	protected abstract void processEntity(Entity e, double dt);
 
 }

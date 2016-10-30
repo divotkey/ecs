@@ -1,6 +1,6 @@
 # Version History
 
-## Version 1.3.1
+## Version 1.4.0
 
 Date: *unpublished*
 
@@ -8,6 +8,8 @@ Date: *unpublished*
 - Added abstract `IteratingSystem` that processes one family of entities.
 - Added some additional JavaDoc comments.
 - System can be enabled or disabled.
+- Added filtered entity listeners to engine.
+- Systems get disabled when disposing the engine.
 
 ## Version 1.3.0
 Date: *2016-05-03*
