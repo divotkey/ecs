@@ -31,7 +31,7 @@ public abstract class IteratingSystem extends EngineSystem {
 	 * @throws NullPointerException
 	 *             in case the specified entity family is null
 	 */
-	public IteratingSystem(EntityFamily family) throws NullPointerException {
+	public IteratingSystem(EntityFamily family) {
 		if (family == null) {
 			throw new NullPointerException("entity family must not be null");
 		}
